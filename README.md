@@ -148,17 +148,21 @@ Based on what you learnt about risks and attack vectors, suggest protection meas
 
 
 
-## List of software security controls
+## List of software security controls for mobile apps
+
+There're many security controls that you can use to improve mobile app security — some of them are software-based for your app, some make sense on your app backend, some are organization-based (security awareness trainings, password reset policies, etc), some rely on 3rd party service providers (security engineering, security design, pen testing, security code audits, etc). 
+
+Noone knows the full list of security controls (but [NIST SP 800-53](https://csrc.nist.gov/publications/detail/sp/800-53/rev-4/final) has good ideas), this is a short list tailored for mobile devs.
 
 
 
-Transport/network:
+**Transport/network:**
 
 * proper TLS settings
 * certificate pinning (client certificate pinning)
 * additional encryption layer (like, end-to-end encryption of data of the same user, or encryption of data from userA to userB)
 
-Storage:
+**Storage:**
 
 * data encryption
 * keys encryption
@@ -168,38 +172,64 @@ Storage:
 * "secure wipe out" of data with "zeroing" (fill variable with zeroes before nulling)
 * backup of important user data (suggest to backup) 
 
-Access control:
+**Access control:**
 
-* device pin
+* device pin protection
 * user session authentication (OAuth2, JWT, cookies, etc)
 * user session expiration/termination
 * authenticating user before performing critical operation (removing project, changing password)
 * roles managing (ABAC/RBAC)
 
-Anti-reverse engineering and JB-protection:
+**Anti-reverse engineering and JB-protection:**
 
 * JB-checks through the app, especially on performing critical actions
 * anti-bruteforce timers/counters to limit amount of attempts
 * code obfuscation
 
-Monitoring:
+**Monitoring:**
 
-* 3rd party dependency security checking
-* honeypots
+* security testing/monitoring of 3rd party dependencies
+* honeypots (fake user credentials, API requests, pieces of code)
 * integrity checks of loaded libraries (on adding, in runtime)
 * tracking "risky" user behaviour (unsuccessful login attempts, opening app on JB device, decryption errors)
+* security events monitoring systems (SIEMs)
+* 
 
 
 
 
 
-## List of tools
+## List of (defensive) appsec tools for mobile apps
+
+Dependency checkings
+
+Hide secrets
+
+Check for secrets
+
+Anti-JB protection
 
 
 
 
 
+## Data protection regulations
 
+Regulations differ for country/region, industry, business activity. 
+
+The list is not limited to:
+
+**General data security compliance:** ISO/IEC 27002:2013, CCPA, NIST 800-171, FIPS 140-2, GDPR, DPA, Brazilian General Data Protection Act, etc
+
+**Finance**: PCI DSS, PCI HSM, SWIFT Customer Security Controls, PSD2, FINMA, GLBA, etc
+
+**Healthcare**: HIPAA, HITECH, ISO 27799:2016, etc
+
+**Education**: FERPA, etc
+
+
+
+[**Cheatsheet** on major regulations](https://www.cossacklabs.com/blog/what-we-need-to-encrypt-cheatsheet.html), what data they require to protect.
 
 
 
@@ -239,7 +269,7 @@ Monitoring:
 
 
 
-### Links
+## iOS-specific security links
 
 **iOS-specific security things, tips how to start with your app security**
 
