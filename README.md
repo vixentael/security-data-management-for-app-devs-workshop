@@ -246,6 +246,14 @@ Noone know full list of useful security tools for mobile apps. Check services li
 * [detect debugging](https://gist.github.com/julepka/de2c9094118d47112e22dc7761579e3b)
 * [jailbreak detection blogpost](https://duo.com/blog/jailbreak-detector-detector)
 
+**SAST/DAST**
+
+* https://www.checkmarx.com/
+* https://www.sonarqube.org/
+* https://www.appknox.com/dynamic-application-security-testing
+* https://app-ray.co/
+* https://www.softwaretestinghelp.com/mobile-app-security-testing-tools/
+
 
 
 <a name="regulations"></a>
