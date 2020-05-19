@@ -1,42 +1,30 @@
-# security-data-management-for-app-devs-workshop
-Workshop for try!swift world.
+**Workbook** for "Security data management for app devs" workshop during [try! Swift world](https://www.tryswift.co/world/#). By Anastasiia [@vixentael](https://twitter.com/vixentael).
 
 
 
-## Plan
-
-1. Intro
-   1. Who am I, what I do. Examples of my work.
-2. Our goals today. SSDLC.
-3. Sensitive data types and risks.
-   1. Ex1. Data table.
-   2. Ex2. Risks table.
-4. Threats to data.
-   1. Ex3. Threats table
-5. Triage risks importance.
-   1. Ex4. Risks triage.
-6. Security controls and attack surface.
-   1. List of security controls
-   2. Ex5. Select appropriate security controls.
-7. Standards: NIST, Apple. Risk management standarts: FAIR.
-8. Guidelines and verification: OWASP top10, OWASP MASVS, OWASP MSTG.
-9. Tools.
-   1. List of tools.
-10. Ongoing support, cycle.
-11. When you need external help? Pentests, security engineering, risk management advisory.
-12. Outro. Do this exercise for your app. Come back when done.
-
-
+# Table of contents
+1. [Defining data model, risks, threats, security controls](#datamodel)
+    1. [Example](#datamodel-example)
+    2. [Exercises](#datamodel-exercises)
+2. [Software security controls](#controls)
+3. [Security tools](#tools)
+4. [Regulations](#regulations)
+5. [Security design guidelines](#design-guidelines)
+6. [Risk management guides](#risk-mngm-guides)
+7. [Security verification and testing](#testing)
+8. [Resources](#resources)
 
 ---
 
-## Intro
 
 
+<a name="datamodel"></a>
 
 ## Defining data model, risks, threats, security controls.
 
-#### **Example**. 
+<a name="datamodel-example"></a>
+
+#### **Example** 
 
 Imagine Note-taking app or Todo app. Users want to put very secret notes there and be sure that notes are protected from app developers and Apple. Developers implemented notes encryption, that leads to the following data model. App uses iCloud backend and doesn't handle user login/authorisation, as it goes through iCloudKit.
 
@@ -93,6 +81,8 @@ Real-world public example of risk managing for Note-taking app is Bear app. I've
 
 
 
+<a name="datamodel-exercises"></a>
+
 #### Exercises.
 
 Imagine app that allows users to see their sensitive documents and share them to each other (aka "SecureDropbox"). App has own backend. Based on information about app's data suggests risks model, attack vectors and security controls.
@@ -148,7 +138,9 @@ Based on what you learnt about risks and attack vectors, suggest protection meas
 
 
 
-## List of software security controls for mobile apps
+<a name="controls"></a>
+
+## Software security controls for mobile apps
 
 There're many security controls that you can use to improve mobile app security — some of them are software-based for your app, some make sense on your app backend, some are organization-based (security awareness trainings, password reset policies, etc), some rely on 3rd party service providers (security engineering, security design, pen testing, security code audits, etc). 
 
@@ -197,7 +189,7 @@ Noone knows the full list of security controls (but [NIST SP 800-53](https://csr
 
 
 
-
+<a name="tools"></a>
 
 ## List of (defensive) appsec tools for mobile apps
 
@@ -211,7 +203,7 @@ Anti-JB protection
 
 
 
-
+<a name="regulations"></a>
 
 ## Data protection regulations
 
@@ -233,6 +225,8 @@ The list is not limited to:
 
 
 
+<a name="design-guidelines"></a>
+
 ## Mobile application security design (standards and guidelines)
 
 [Apple platform security guides](https://support.apple.com/guide/security/welcome/web) — 157p pdf, describes Apple's hardware security, system security, encryption and data protection, app security, network security and dev kits. Useful to understand environment app's running in, platform restrictions and security controls that Apple use themselves.
@@ -244,6 +238,8 @@ The list is not limited to:
 [NIST SP 800-53, Security and Privacy Controls for Federal Information Systems and Organizations](https://csrc.nist.gov/publications/detail/sp/800-53/rev-4/final) — describes numerous technology-independent security controls, classifies them by "family", usage, functionality, capabilities, etc. 
 
 
+
+<a name="risk-mngm-guides"></a>
 
 ## Risk management guides
 
@@ -257,6 +253,8 @@ The list is not limited to:
 
 
 
+<a name="testing"></a>
+
 ## Mobile application security verification and testing
 
 [OWASP Mobile application security verification standard (MASVS)](https://github.com/OWASP/owasp-masvs) — checklist of mobile app security requirements, different depending on app/data risks, business requirements and regulations. Use it to measure "security scores" for your app — how good it is — and to track progress by repeating MASVS checks every 6-12 months.
@@ -268,6 +266,8 @@ The list is not limited to:
 [OWASP Software assurance maturity model (SAMM)](https://owaspsamm.org/) — "checklist" for the whole organization that produces software, covers not only software properties, but organization dev process (understanding threats, selecting security providers, taking care about software security architecture). Use it to measure how good software security is in your organization.
 
 
+
+<a name="resources"></a>
 
 ## iOS-specific security links
 
