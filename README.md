@@ -144,7 +144,7 @@ Based on what you learnt about risks and attack vectors, suggest protection meas
 
 There're many security controls that you can use to improve mobile app security — some of them are software-based for your app, some make sense on your app backend, some are organization-based (security awareness trainings, password reset policies, etc), some rely on 3rd party service providers (security engineering, security design, pen testing, security code audits, etc). 
 
-Noone knows the full list of security controls (but [NIST SP 800-53](https://csrc.nist.gov/publications/detail/sp/800-53/rev-4/final) has good ideas), this is a short list tailored for mobile devs.
+Noone knows the full list of security controls (but [NIST SP 800-53](https://csrc.nist.gov/publications/detail/sp/800-53/rev-4/final) has good ideas), this is a short list tailored for mobile devs. Also, [OWASP MASVS](https://github.com/OWASP/owasp-masvs) checklist is a good start.
 
 
 
@@ -152,21 +152,25 @@ Noone knows the full list of security controls (but [NIST SP 800-53](https://csr
 
 * proper TLS settings
 * certificate pinning (client certificate pinning)
-* additional encryption layer (like, end-to-end encryption of data of the same user, or encryption of data from userA to userB)
+* additional encryption layer, application level payload encryption (like, end-to-end encryption of data of the same user, or encryption of data from userA to userB)
+* app doesn't rely on a single insecure communication channel for critical operations
 
 **Storage:**
 
 * data encryption
 * keys encryption
 * keys management
+* no storing data outside of app container/system secret storage
 * storing in Keychain/SecureEnclave
 * storing in Keychain with biometrics-protection
+* wiping data when it became not needed
 * "secure wipe out" of data with "zeroing" (fill variable with zeroes before nulling)
 * backup of important user data (suggest to backup) 
 
 **Access control:**
 
 * device pin protection
+* biometrics authentication
 * user session authentication (OAuth2, JWT, cookies, etc)
 * user session expiration/termination
 * authenticating user before performing critical operation (removing project, changing password)
@@ -174,18 +178,26 @@ Noone knows the full list of security controls (but [NIST SP 800-53](https://csr
 
 **Anti-reverse engineering and JB-protection:**
 
-* JB-checks through the app, especially on performing critical actions
+* app checks if device is jailbroken, especially on performing critical actions, and alerts users
+* app detects when run on simulator
+* app detects when run using debugging tools
 * anti-bruteforce timers/counters to limit amount of attempts
 * code obfuscation
+* integrity checks of loaded libraries (when library is added by package manager, when app calls library in runtime)
+
+**Platform**
+
+* app is signed with valid credentials, noone has access to account's provisioning profiles and private keys
+* debugging symbols are removed in release app
+* app only depends on up-to-date connectivity and security libraries
+* app does not export sensitive functionality via custom URL schemes
 
 **Monitoring:**
 
 * security testing/monitoring of 3rd party dependencies
 * honeypots (fake user credentials, API requests, pieces of code)
-* integrity checks of loaded libraries (on adding, in runtime)
 * tracking "risky" user behaviour (unsuccessful login attempts, opening app on JB device, decryption errors)
 * security events monitoring systems (SIEMs)
-* 
 
 
 
@@ -193,13 +205,44 @@ Noone knows the full list of security controls (but [NIST SP 800-53](https://csr
 
 ## List of (defensive) appsec tools for mobile apps
 
-Dependency checkings
+Noone know full list of useful security tools for mobile apps. Check services like [tools.tldr.run](https://tools.tldr.run/).
 
-Hide secrets
+**Multi-platform high-level encryption libraries:**
 
-Check for secrets
+* [Themis](https://github.com/cossacklabs/themis)
+* [SwiftSodium](https://github.com/jedisct1/swift-sodium)
+* [RNCryptor](https://github.com/RNCryptor/RNCryptor)
 
-Anti-JB protection
+**Apple-first encryption libraries:**
+
+* CryptoKit (high level)
+* CommonCrypto (low level)
+
+**Secrets management:**
+
+- [awslasb/git-secrets](awslasb/git-secrets) — prevents from committing secrets
+- [cocoapods-keys](https://github.com/orta/cocoapods-keys) by @orta — keep secrets away from github
+- [gitleaks](https://github.com/zricethezav/gitleaks) — scans repo for missing secrets
+- [ios-datasec-basics](https://github.com/vixentael/ios-datasec-basics) — repo that describes methods how to encrypt API keys before storing in the app
+
+**Dependency checks:**
+
+* [WhiteSourceSoftware](https://www.whitesourcesoftware.com/) plugin for iOS
+* [Snyk](https://snyk.io/test/) checks for React Native and Cordova
+* npm audit, github notification, python, [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/) — for backend code
+
+**Obfuscation, code hardening, threat protection :**
+
+* [dexprotector](https://dexprotector.com/), [tutorial for iOS](https://dev.to/shostarsson/application-obfuscation-on-ios-3d2c)
+* [GuardSquare](https://www.guardsquare.com/en)
+* [Swift Shield](https://github.com/rockbruno/swiftshield)
+* [blogpost with other tools](https://www.polidea.com/blog/open-source-code-obfuscation-tool-for-protecting-ios-apps/)
+
+**Anti-JB protection (see above, plus):**
+
+* [disable debug](https://gist.github.com/mattlawer/d391c5137f987d109c54b58a7ce36a04)
+* [detect debugging](https://gist.github.com/julepka/de2c9094118d47112e22dc7761579e3b)
+* [jailbreak detection blogpost](https://duo.com/blog/jailbreak-detector-detector)
 
 
 
@@ -218,6 +261,8 @@ The list is not limited to:
 **Healthcare**: HIPAA, HITECH, ISO 27799:2016, etc
 
 **Education**: FERPA, etc
+
+[Apple Export regulations on cryptography](https://docs.cossacklabs.com/pages/apple-export-regulations/)
 
 
 
@@ -269,13 +314,31 @@ The list is not limited to:
 
 <a name="resources"></a>
 
-## iOS-specific security links
+## More links
 
 **iOS-specific security things, tips how to start with your app security**
 
 - ["Popular note-taking apps share these security flaws: security tips for developers"](https://medium.com/@vixentael/popular-note-taking-apps-share-these-security-flaws-security-tips-for-developers-326180e41329) 
-- [X Things you Need to Know before Implementing Cryptography](https://speakerdeck.com/vixentael/x-things-you-need-to-know-before-implementing-cryptography)
-- [By-passing biometrics protection](https://speakerdeck.com/julep/making-authentication-more-secure)
+- [X Things you Need to Know before Implementing Cryptography](https://speakerdeck.com/vixentael/x-things-you-need-to-know-before-implementing-cryptography) by [@vixentael](https://twitter.com/vixentael)
+- [By-passing biometrics protection](https://speakerdeck.com/julep/making-authentication-more-secure) slides by [@julepka](https://twitter.com/julepka)
+- [End-to-end encryption for Wire](http://www.swifttube.co/video/end-to-end-encryption-for-ios-developer-mihail-gerasimenko) by @GerasimenkoMiha
+- [Building end-to-end encryption for Bear app](https://speakerdeck.com/vixentael/10-lines-of-encryption-1500-lines-of-key-management) by @vixentael
+
+**Books**
+
+* [NoStarch iOS security book](https://nostarch.com/iossecurity)
+* [Password authentication for web and mobile apps](https://dchest.com/authbook/) book by Dmitry Chestnykh
+* [API security](https://developer.okta.com/books/api-security/)
+
+**Online courses / workshops**
+
 - [online course on reverse engineering iOS apps](https://github.com/ivRodriguezCA/RE-iOS-Apps) by [@ivRodriguezCA](https://twitter.com/ivRodriguezCA)
 - [other talks and workshops on iOS app security](https://github.com/vixentael/my-talks) by [@vixentael](https://twitter.com/vixentael)
-- [Password authentication for web and mobile apps](https://dchest.com/authbook/) book by Dmitry Chestnykh
+
+
+
+## Stay tuned
+
+We do data security for living. At Cossack Labs we help companies who process sensitive data and want to protect it against external attackers, insiders, mis-configurations and to be compliant with regulations. We build and license our own proprietary or open source software, or build custom solutions tailored for specific use cases.
+
+Ping [@vixentael](https://twitter.com/vixentael) or [@cossacklabs](https://cossacklabs.com/), if you need security engineering assistance :)
