@@ -81,6 +81,8 @@ Real-world public example of risk managing for Note-taking app is Bear app. I've
 
 
 
+---
+
 <a name="datamodel-exercises"></a>
 
 #### Exercises.
