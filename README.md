@@ -227,9 +227,10 @@ Noone know full list of useful security tools for mobile apps. Check services li
 - [gitleaks](https://github.com/zricethezav/gitleaks) — scans repo for missing secrets
 - [ios-datasec-basics](https://github.com/vixentael/ios-datasec-basics) — repo that describes methods how to encrypt API keys before storing in the app
 
-**Dependency checks:**
+**Dependency checks (SCA, software composition analysis):**
 
-* [WhiteSourceSoftware](https://www.whitesourcesoftware.com/) plugin for iOS
+* [WhiteSourceSoftware](https://www.whitesourcesoftware.com/) plugin for iOS, known to check Carthage
+* [BlackDuckSoftware](https://www.blackducksoftware.com/) pluging for iOS, known to check CocoaPods
 * [Snyk](https://snyk.io/test/) checks for React Native and Cordova
 * npm audit, github notification, python, [OWASP Dependency-Check](https://owasp.org/www-project-dependency-check/) — for backend code
 
