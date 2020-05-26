@@ -248,12 +248,14 @@ Noone know full list of useful security tools for mobile apps. Check services li
 
 **SAST/DAST**
 
-* https://www.checkmarx.com/
-* https://www.sonarqube.org/
-* https://www.appknox.com/dynamic-application-security-testing
-* https://app-ray.co/
-* https://www.softwaretestinghelp.com/mobile-app-security-testing-tools/
+* [checkmarx](https://www.checkmarx.com/)
+* [sonarqube](https://www.sonarqube.org/)
+* [veracode](https://www.veracode.com/products/binary-static-analysis-sast)
+* [appknox](https://www.appknox.com/dynamic-application-security-testing)
+* [app-ray](https://app-ray.co/)
+* [blogpost with other tools](https://www.softwaretestinghelp.com/mobile-app-security-testing-tools/)
 
+Beware: automated tools typically require ongoing attention due to large number of false positives / false negatives.
 
 
 <a name="regulations"></a>
