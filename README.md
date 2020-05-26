@@ -48,7 +48,7 @@ Levels: critical, high, moderate, low.
 | :------ | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
 | **NT**  | Moderate *(note is inevitably* *displayed on the device* *screen at some point)* | Critical *(this is exactly what users want to be protected from)* | Critical                                                     | High *(losing note text —* *making users angry)*             |
 | **PW**  | Moderate *(having password alone* *won’t help to decrypt notes)* | Critical *(users tend to reuse* *passwords, we should* *avoid having them* *in plaintext)* | Critical *(can’t decrypt* *notes linked to* *this password)* | Critical *(losing password —* *losing all encrypted notes)*  |
-| **NEk** | Moderate *(used for encryption* *of one note)*               | Low *(used for encryption* *of one note)*                    | Low *(wrong key — decryption* *of a specific note* *is impossible)* | Moderate *(lost key — decryption* *of a specific note* *is impossible)* |
+| **NEk** | Moderate *(used for encryption* *of one note)*               | Low *(used for encryption* *of one note)*                    | Low *(wrong key — decryption* *of a specific note* *is impossible)* | Low *(lost key — decryption* *of a specific note* *is impossible)* |
 
 Risks are theoretical until attackers find the way to how exploit them. Attack vectors are such ways.
 
@@ -105,13 +105,13 @@ Imagine app that allows users to see their sensitive documents and share them to
 
 ##### Exercise 1.2. Fill in empty spaces in risks to data of Document app.
 
-| Risks    | Access | Disclosure | Modification | Access denial |
-| :------- | :----- | :--------- | :----------- | :------------ |
-| **D-US** |        | High       |              |               |
-| **D-AK** |        |            | Low          |               |
-| **D-IC** | Low    |            |              | High          |
-| **D-BI** |        |            |              |               |
-| **D-DC** | High   | Critical   | Critical     |               |
+| Risks    | Access                               | Disclosure                           | Modification                               | Access denial                            |
+| :------- | :----------------------------------- | :----------------------------------- | :----------------------------------------- | :--------------------------------------- |
+| **D-US** | High / Critical                      | High / Critical                      | Moderate / Critical                        | Low                                      |
+| **D-AK** | Low (for analytics lib) / High (AWS) | Low (for analytics lib) / High (AWS) | Low / High if API keys are unique per user | same                                     |
+| **D-IC** | Low                                  | Low                                  | Critical                                   | High                                     |
+| **D-BI** | Moderate / High                      | Critial / High                       | Moderate / High                            | Low — for iOS app<br />Moderate / High   |
+| **D-DC** | High                                 | Critical                             | Critical                                   | Low — for iOS app<br/>depends on backups |
 
 
 
@@ -119,10 +119,13 @@ Imagine app that allows users to see their sensitive documents and share them to
 
 High-priority attack vectors: 
 
-- data transmission between app and application backend (broken transport encryption).
+- data transmission between app and application backend (broken transport encryption), MITM.
 - privileges escalation of user role (access to documents/projects that user shouldn’t have).
-- .... (continue the list)
-- ....
+- DOS
+- Reading info from caches
+- JB device
+- accessible documents (bad role management)
+- swapping 3rd library
 
 
 
@@ -132,13 +135,13 @@ Based on what you learnt about risks and attack vectors, suggest protection meas
 
 | **Data class** | **Security control  (transfer)**                             | **Security control  (storage)**                              |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **D-US**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning. |                                                              |
-| **D-AK**       |                                                              | Stored encrypted by static in-app key, gets decrypted on app running. |
-| **D-IC**       | Not transferred.                                             |                                                              |
-| **D-BI**       |                                                              | Not stored persistently.                                     |
-| **D-DC**       | Successful user authentication.                              | Not stored persistently.<br/>Removed from cache when user closes document.<br/>Auto-locking timer. |
+| **D-US**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning.<br/>Disable 3rd party keyboards<br/><br/>Throttling<br/>Do not reveal error code / reason | Do not store<br/>Store encrypted<br/>Store in Keychain<br/><br />Store in Keychain with biometrics protection<br/><br />Flush on exit<br/><br />Flush on timer |
+| **D-AK**       | TLS<br/>cert pinning<br/>Temporary API key                   | Stored encrypted by static in-app key, gets decrypted on app running.<br/>Obfuscation<br/>Honeypots<br/>Do not store, take from API call |
+| **D-IC**       | Not transferred.                                             | same as API keys                                             |
+| **D-BI**       | same as **D-US**                                             | Not stored persistently.<br/><br />Repeated authentication   |
+| **D-DC**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning.<br/>DRM-like<br/> | Not stored persistently.<br/>Removed from cache when user closes document.<br/>Auto-locking timer.<br/><br />Watermarking |
 
-
+SIEM
 
 <a name="controls"></a>
 
