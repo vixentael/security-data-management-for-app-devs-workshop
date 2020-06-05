@@ -105,13 +105,13 @@ Imagine app that allows users to see their sensitive documents and share them to
 
 ##### Exercise 1.2. Fill in empty spaces in risks to data of Document app.
 
-| Risks    | Access | Disclosure | Modification | Access denial |
-| :------- | :----- | :--------- | :----------- | :------------ |
-| **D-US** |        | High       |              |               |
-| **D-AK** |        |            | Low          |               |
-| **D-IC** | Low    |            |              | High          |
-| **D-BI** |        |            |              |               |
-| **D-DC** | High   | Critical   | Critical     |               |
+| Risks    | Access                                            | Disclosure                                        | Modification       | Access denial        |
+| :------- | :------------------------------------------------ | :------------------------------------------------ | :----------------- | :------------------- |
+| **D-US** | Moderate/High                                     | High/Critical                                     | Moderate/High      | Moderate .. Critical |
+| **D-AK** | Low/Moderate — analytics / Critical — for storage | Low/Moderate — analytics / Critical — for storage | Low                | Low / Critical       |
+| **D-IC** | Low                                               | Low                                               | Critical / Depends | High                 |
+| **D-BI** | High/Critical                                     | Critical                                          | High               | Moderate/High        |
+| **D-DC** | High                                              | Critical                                          | Critical           | Moderate/High        |
 
 
 
@@ -121,8 +121,11 @@ High-priority attack vectors:
 
 - data transmission between app and application backend (broken transport encryption).
 - privileges escalation of user role (access to documents/projects that user shouldn’t have).
-- .... (continue the list)
-- ....
+- checking UserDefaults / not safe storage
+- using app on JB device
+- user enumeration (userId 123456)
+- misconfigured S3 bucket
+- iCloud Keychain bugs
 
 
 
@@ -132,11 +135,11 @@ Based on what you learnt about risks and attack vectors, suggest protection meas
 
 | **Data class** | **Security control  (transfer)**                             | **Security control  (storage)**                              |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **D-US**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning. |                                                              |
-| **D-AK**       |                                                              | Stored encrypted by static in-app key, gets decrypted on app running. |
-| **D-IC**       | Not transferred.                                             |                                                              |
-| **D-BI**       |                                                              | Not stored persistently.                                     |
-| **D-DC**       | Successful user authentication.                              | Not stored persistently.<br/>Removed from cache when user closes document.<br/>Auto-locking timer. |
+| **D-US**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning. | Keychain / SecureEnclave<br/>Encrypted<br/>Keychain with biometrics authentication<br/>Hashing(?)<br/>Revokable access token<br/>Sending notification<br/>Do not log |
+| **D-AK**       | TLS<br/>Cert pinning<br/>                                    | Stored encrypted by static in-app key, gets decrypted on app running.<br />Obfucate<br />Honey pots<br /> |
+| **D-IC**       | Not transferred.<br />DRM-like schemes                       | Stored encrypted by static in-app key, gets decrypted on app running.<br />Obfucate<br />Alert backend when IC is wrong |
+| **D-BI**       | TLS.<br/>Successful user authentication.<br/>Client certificate pinning.<br />Do not transfer | Not stored persistently.<br />If you store, encrypt, put to protected storage<br />Do not log |
+| **D-DC**       | Successful user authentication.<br />Roles<br />Encryption<br />Repeated auth | Not stored persistently.<br/>Removed from cache when user closes document.<br/>Auto-locking timer.<br />Encryption if we store<br /><br />Carousel veil |
 
 
 
